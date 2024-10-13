@@ -251,3 +251,95 @@ img {
 .container {
   padding: 2px 16px;
 }
+/* src/components/Faq.css */
+
+.faq-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f7f9fc;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.faq-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #2980b9;
+}
+
+.faq-question h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.arrow {
+  font-size: 1.5rem;
+  color: #2980b9;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding-top: 10px;
+  font-size: 1rem;
+  color: #34495e;
+  line-height: 1.6;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Ensure list items inside answers are displayed as actual lists */
+.faq-answer p {
+  margin-bottom: 10px;
+}
+
+.faq-answer ul,
+.faq-answer ol {
+  margin-top: 10px;
+  margin-left: 20px; /* Adjust the indentation */
+  padding-left: 20px;
+  list-style-type: disc; /* This will make sure it shows bullet points for unordered lists */
+}
+
+.faq-answer li {
+  margin-bottom: 5px;
+}
+
+/* If you're using ordered lists, you can specify the style for those as well */
+.faq-answer ol {
+  list-style-type: decimal;
+}

@@ -18,6 +18,7 @@ import UseReducer from "./Dashboard/Hooks/UseReducer";
 import ReduxModule from "./Dashboard/ReduxModule";
 import ApiCall from "./Dashboard/ApiCall";
 import Iq from "./Dashboard/Iq";
+import Demo from './Dashboard/Demo'
 const LazyLoadPage = React.lazy(() => import('./Dashboard/LazyLoadPage'))
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="redux" element={<ReduxModule />} />
           <Route path="apiCall" element={<ApiCall />} />
           <Route path="iq" element={<Iq />} />
+          <Route path="demo" element={<Demo />} />
 
           <Route path='lazyLoadPage' element={
             <React.Suspense fallback='Loading ... '><LazyLoadPage />

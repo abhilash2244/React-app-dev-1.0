@@ -15,7 +15,7 @@ import ReduxModule from './Dashboard/ReduxModule'
 import LazyLoadPage from './Dashboard/LazyLoadPage'
 import ApiCall from './Dashboard/ApiCall'
 import Iq from './Dashboard/Iq'
-
+import Demo from './Dashboard/Demo'
 export default function Dashboard() {
     const [dropDownList, setDropDownList] = useState(false)
     return (
@@ -26,7 +26,7 @@ export default function Dashboard() {
                 <NavLink to="redux" element={<ReduxModule />}>ReduxModule</NavLink>
                 <NavLink to="lazyLoadPage" element={<LazyLoadPage />}>Lazy Loading</NavLink>
                 <NavLink to="apiCall" element={<ApiCall />}>Api Calling</NavLink>
-                <NavLink to="iq" element={<Iq />}>Iq</NavLink>
+                <NavLink to="iq" element={<Iq />}>FAQ</NavLink>
 
                 <button onClick={()=> setDropDownList(!dropDownList)} className="dropdown-btn">Hooks<i className="fa fa-caret-down"></i></button>
                     <div className="dropdown-container" style={{display : dropDownList ? "block":"none"}}>
@@ -39,20 +39,20 @@ export default function Dashboard() {
                         <NavLink to="useReducer" element={<UseReducer />}>UseReducer</NavLink>
 
                     </div>
-                <a href="#about">Demo</a>
+                {/* <a href="#about">Demo</a> */}
+                <NavLink to="demo" element={<Demo />}>Demo JS Samples</NavLink>
 
             </div>
 
             <div className="content">
-                <div className="topnav">
+                {/* <div className="topnav">
 
                     <div className="search-container">
                         <form action="/action_page.php">
                             <input style={{ background: "#f1f1f1" }} type="text" placeholder="Search.." name="search" />
-                            {/* <button type="submit"><i className="fa fa-search"></i></button> */}
                         </form>
                     </div>
-                </div>
+                </div> */}
                 <Outlet />
 
             </div>
