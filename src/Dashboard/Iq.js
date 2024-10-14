@@ -40,7 +40,88 @@ export const qaArray = [
 
       <li><strong>Why the Browser Doesn’t Reload:</strong> React doesn't reload the whole page because it uses the Virtual DOM to handle updates efficiently. Instead of reloading, React selectively updates only the parts of the actual DOM that need to change, improving performance and user experience.</li>
     </ul>`,
+},{
+  id: 5,
+  question: "Stateless and Stateful Components in React",
+  answer: `
+  <ul>
+    <li><strong>Stateless Component:</strong> A stateless component (or functional component) is a simple JavaScript function that accepts props and returns JSX. It does not manage or hold any internal state. It is used to render UI based on props.
+      <ul>
+        <li><strong>Example:</strong>
+          <pre>
+            <code>
+            const Greeting = (props) => {
+              return &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;;
+            };
+
+            &lt;Greeting name="John" /&gt;
+            </code>
+          </pre>
+        </li>
+      </ul>
+    </li>
+    <li><strong>Stateful Component:</strong> A stateful component is a component (either class-based or functional) that holds and manages internal state. It uses the <code>useState</code> hook (in functional components) or <code>this.state</code> in class components to manage state.
+      <ul>
+        <li><strong>Example:</strong>
+          <pre>
+            <code>
+            import React, { useState } from 'react';
+
+            const Counter = () => {
+              const [count, setCount] = useState(0);
+              return (
+                &lt;div&gt;
+                  &lt;p&gt;Current count: {count}&lt;/p&gt;
+                  &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+                &lt;/div&gt;
+              );
+            };
+
+            &lt;Counter /&gt;
+            </code>
+          </pre>
+        </li>
+      </ul>
+    </li>
+  </ul>`
 },
+{
+  id: 6,
+  question: "Higher-Order Components (HOC) in React",
+  answer: `
+  <ul>
+    <li><strong>Higher-Order Component (HOC):</strong> A higher-order component is a function that takes a component as an argument and returns a new component. HOCs are used to reuse component logic across multiple components.
+      <ul>
+        <li>They are useful for adding shared behavior, like logging or authentication, to multiple components without duplicating code.</li>
+        <li><strong>Example:</strong>
+          <pre>
+            <code>
+            import React from 'react';
+
+            const withLogging = (WrappedComponent) => {
+              return class extends React.Component {
+                componentDidMount() {
+                  console.log('Component Mounted:', WrappedComponent.name);
+                }
+                render() {
+                  return &lt;WrappedComponent {...this.props} /&gt;;
+                }
+              };
+            };
+
+            const Hello = (props) => &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;;
+
+            const HelloWithLogging = withLogging(Hello);
+
+            &lt;HelloWithLogging name="John" /&gt;
+            </code>
+          </pre>
+        </li>
+      </ul>
+    </li>
+  </ul>`
+}
+
 ,
   {
     id: 7,
@@ -107,7 +188,529 @@ export const qaArray = [
     <li><strong>Spread and Rest Operators:</strong> Operators that allow you to easily spread out an array or object into individual elements, or gather multiple elements into an array or object.</li>
     <li><strong>New Collection Classes:</strong> Set, Map, WeakSet, and WeakMap.</li>
   </ul>`,
-  },
+  },{
+    id: 12,
+    question: "Prop Drilling in React",
+    answer: `
+    <ul>
+      <li><strong>Prop Drilling:</strong> Prop drilling refers to the process of passing data from a parent component to deeply nested child components by passing props through each intermediate component in the hierarchy, even if those intermediate components do not need the data themselves.</li>
+      <li>Prop drilling can make the code harder to maintain as the component hierarchy grows, especially when many intermediate components are involved.</li>
+      <li><strong>Example:</strong>
+        <pre>
+          <code>
+          const ParentComponent = () => {
+            const data = "Hello from Parent";
+            return &lt;ChildComponent1 data={data} /&gt;;
+          };
+
+          const ChildComponent1 = ({ data }) => {
+            return &lt;ChildComponent2 data={data} /&gt;;
+          };
+
+          const ChildComponent2 = ({ data }) => {
+            return &lt;p&gt;{data}&lt;/p&gt;;
+          };
+
+          &lt;ParentComponent /&gt;;
+          </code>
+        </pre>
+      </li>
+      <li><strong>Solution to Prop Drilling:</strong> To avoid prop drilling, you can use React Context or state management libraries like Redux to manage global state and pass data without having to go through each component in the hierarchy.</li>
+    </ul>`
+  },{
+    id: 13,
+    question: "Sending Data from Parent to Child in React",
+    answer: `
+    <ul>
+      <li><strong>Sending Data from Parent to Child:</strong> In React, the most common way to send data from a parent component to a child component is through <code>props</code>. The parent passes data to the child by including it as a prop when rendering the child component.</li>
+      <li><strong>Example:</strong>
+        <pre>
+          <code>
+          const ParentComponent = () => {
+            const message = "Hello from Parent";
+            return &lt;ChildComponent message={message} /&gt;;
+          };
+
+          const ChildComponent = ({ message }) => {
+            return &lt;p&gt;{message}&lt;/p&gt;;
+          };
+
+          &lt;ParentComponent /&gt;;
+          </code>
+        </pre>
+      </li>
+    </ul>`
+  },{
+    id: 14,
+    question: "Sending Data from Child to Parent in React",
+    answer: `
+    <ul>
+      <li><strong>Sending Data from Child to Parent:</strong> In React, to send data from a child component to a parent component, the parent passes a callback function as a prop to the child. The child can then call this function and pass data to the parent as an argument.</li>
+      <li>This is known as <em>lifting state up</em> because the state is managed by the parent component, but the child component sends updates to the parent.</li>
+      <li><strong>Example:</strong>
+        <pre>
+          <code>
+          const ParentComponent = () => {
+            const [childData, setChildData] = useState("");
+
+            const handleDataFromChild = (data) => {
+              setChildData(data);
+            };
+
+            return (
+              &lt;div&gt;
+                &lt;p&gt;Data from Child: {childData}&lt;/p&gt;
+                &lt;ChildComponent sendDataToParent={handleDataFromChild} /&gt;
+              &lt;/div&gt;
+            );
+          };
+
+          const ChildComponent = ({ sendDataToParent }) => {
+            const sendData = () => {
+              sendDataToParent("Hello from Child");
+            };
+
+            return &lt;button onClick={sendData}&gt;Send Data to Parent&lt;/button&gt;;
+          };
+
+          &lt;ParentComponent /&gt;;
+          </code>
+        </pre>
+      </li>
+    </ul>`
+  },{
+    id: 15,
+    question: "Class and Functional Components, React Release Year, Current Version, Hooks, Advantages and Disadvantages",
+    answer: `
+      <ul>
+        <li><strong>Class Components:</strong>
+          <ul>
+            <li>Class components are ES6 classes that extend from <code>React.Component</code> and can use state and lifecycle methods.</li>
+            <li>They were the primary way to manage state and lifecycle methods before hooks were introduced.</li>
+            <li><strong>Example:</strong>
+              <pre>
+                <code>
+                class MyComponent extends React.Component {
+                  constructor(props) {
+                    super(props);
+                    this.state = { count: 0 };
+                  }
+                  componentDidMount() {
+                    console.log('Component mounted');
+                  }
+                  render() {
+                    return (
+                      &lt;div&gt;
+                        &lt;p&gt;Count: {this.state.count}&lt;/p&gt;
+                        &lt;button onClick={() => this.setState({ count: this.state.count + 1 })}&gt;
+                          Increment
+                        &lt;/button&gt;
+                      &lt;/div&gt;
+                    );
+                  }
+                }
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+  
+        <li><strong>Functional Components:</strong>
+          <ul>
+            <li>Functional components are simple JavaScript functions that return JSX. They were stateless before hooks but can now manage state and lifecycle with hooks.</li>
+            <li>They are easier to write and test compared to class components.</li>
+            <li><strong>Example:</strong>
+              <pre>
+                <code>
+                import React, { useState, useEffect } from 'react';
+  
+                const MyComponent = () => {
+                  const [count, setCount] = useState(0);
+                  
+                  useEffect(() => {
+                    console.log('Component mounted');
+                  }, []);
+  
+                  return (
+                    &lt;div&gt;
+                      &lt;p&gt;Count: {count}&lt;/p&gt;
+                      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+                    &lt;/div&gt;
+                  );
+                };
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+  
+        <li><strong>React Release Year:</strong> React was first released by Facebook in <strong>May 2013</strong>.</li>
+  
+        <li><strong>Current React Version:</strong> The current stable version of React is <strong>React 18</strong>, which was introduced in <strong>March 2022</strong>.</li>
+  
+        <li><strong>Hooks Introduction:</strong> React introduced hooks in <strong>version 16.8</strong>, which was released in <strong>February 2019</strong>. Hooks allow you to use state and other React features in functional components.</li>
+  
+        <li><strong>Advantages of Hooks:</strong>
+          <ul>
+            <li>They allow functional components to have state and side effects, which were previously only available in class components.</li>
+            <li>Cleaner and more concise syntax compared to class components.</li>
+            <li>Hooks can simplify logic reuse across components by using custom hooks.</li>
+            <li>No need to worry about the complexities of <code>this</code> keyword in classes.</li>
+          </ul>
+        </li>
+  
+        <li><strong>Disadvantages of Hooks:</strong>
+          <ul>
+            <li>Can make functional components harder to understand if too many hooks are used or hooks are misused.</li>
+            <li>Overuse of hooks can lead to "callback hell" in functional components if not properly structured.</li>
+            <li>Some developers may find the learning curve steep when migrating from class components to hooks.</li>
+          </ul>
+        </li>
+      </ul>`
+  },{
+    id: 16,
+    question: "Why are Functional Components Preferred Over Class Components?",
+    answer: `
+      <ul>
+        <li><strong>Simplicity:</strong> Functional components are simpler and easier to write compared to class components. They are just JavaScript functions that return JSX, without needing to deal with <code>this</code> or other complexities of class syntax.</li>
+  
+        <li><strong>Hooks:</strong> With the introduction of hooks in React 16.8, functional components can now manage state, lifecycle methods, and side effects, which were previously only available in class components. This has made functional components more powerful.</li>
+  
+        <li><strong>Cleaner Code:</strong> Functional components provide a more concise and readable syntax. Without the need for lifecycle methods or binding the <code>this</code> keyword, they make the code cleaner and easier to understand.</li>
+  
+        <li><strong>Performance:</strong> Functional components tend to have a slight performance advantage, especially when they are pure components. They avoid some overhead that comes with class components, such as handling the <code>this</code> context.</li>
+  
+        <li><strong>Testing and Debugging:</strong> Functional components are easier to test and debug. Since they are just functions, you can easily mock their inputs and outputs, and avoid the complexity of class component lifecycle hooks.</li>
+  
+        <li><strong>No Binding of <code>this</code>:</strong> In class components, you often have to bind methods to the class instance (using <code>this</code>), which can be confusing and lead to bugs. Functional components don't require this binding, making them easier to work with.</li>
+  
+        <li><strong>Reusable Logic with Custom Hooks:</strong> Functional components allow the use of custom hooks to share logic across components. This provides a much cleaner and reusable way to encapsulate component logic compared to class components, where you had to rely on higher-order components or render props for similar functionality.</li>
+  
+        <li><strong>Modern Approach:</strong> Functional components represent the more modern approach to React development. The React team and the community are focusing more on functional components, and new features in React tend to favor them.</li>
+  
+        <li><strong>Smaller Component Footprint:</strong> Functional components generally result in fewer lines of code and a smaller component footprint. Without lifecycle methods and class-specific logic, functional components are less verbose.</li>
+  
+        <li><strong>Future-Proof:</strong> As React evolves, more features are being built around functional components and hooks. Class components are still supported but are no longer the recommended pattern for writing new React code.</li>
+      </ul>`
+  },{
+    id: 17,
+    question: "map and filter in React/JavaScript",
+    answer: `
+      <ul>
+        <li><strong><code>map</code> in React/JavaScript:</strong>
+          <ul>
+            <li>The <code>map</code> function is used to iterate over an array and transform each element, returning a new array of the same length. It’s commonly used in React to dynamically render lists of components based on an array of data.</li>
+            <li><strong>Example in React:</strong>
+              <pre>
+                <code>
+                const numbers = [1, 2, 3, 4, 5];
+  
+                const NumberList = () => {
+                  return (
+                    &lt;ul&gt;
+                      {numbers.map((number) => (
+                        &lt;li key={number}&gt;{number}&lt;/li&gt;
+                      ))}
+                    &lt;/ul&gt;
+                  );
+                };
+  
+                &lt;NumberList /&gt;
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+  
+        <li><strong><code>filter</code> in React/JavaScript:</strong>
+          <ul>
+            <li>The <code>filter</code> function is used to iterate over an array and return a new array that contains only the elements that pass a specific condition or test.</li>
+            <li><strong>Example in React:</strong>
+              <pre>
+                <code>
+                const numbers = [1, 2, 3, 4, 5];
+  
+                const FilteredNumberList = () => {
+                  const evenNumbers = numbers.filter((number) => number % 2 === 0);
+  
+                  return (
+                    &lt;ul&gt;
+                      {evenNumbers.map((number) => (
+                        &lt;li key={number}&gt;{number}&lt;/li&gt;
+                      ))}
+                    &lt;/ul&gt;
+                  );
+                };
+  
+                &lt;FilteredNumberList /&gt;
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+      </ul>`
+  },{
+    id: 18,
+    question: "Shallow Copy vs. Deep Copy and Copying Objects in React",
+    answer: `
+      <ul>
+        <li><strong>Shallow Copy:</strong>
+          <ul>
+            <li>A shallow copy of an object is a new object that shares the same references to the nested objects of the original. This means that changes to nested objects in the copied object will reflect in the original object, as they both refer to the same memory location for those nested objects.</li>
+            <li><strong>Example of Shallow Copy:</strong>
+              <pre>
+                <code>
+                const original = { name: "John", details: { age: 30 } };
+                const shallowCopy = { ...original };
+  
+                shallowCopy.details.age = 40; // This will also change the age in the original object
+  
+                console.log(original.details.age); // 40
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+  
+        <li><strong>Deep Copy:</strong>
+          <ul>
+            <li>A deep copy of an object creates a completely independent clone of the original object, including all nested objects. This means changes to nested objects in the copied object will not affect the original object, as they refer to different memory locations.</li>
+            <li><strong>Example of Deep Copy:</strong>
+              <pre>
+                <code>
+                const original = { name: "John", details: { age: 30 } };
+                const deepCopy = JSON.parse(JSON.stringify(original));
+  
+                deepCopy.details.age = 40; // This does not change the age in the original object
+  
+                console.log(original.details.age); // 30
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+  
+        <li><strong>Copying Objects in React:</strong>
+          <ul>
+            <li>In React, it's common to create shallow copies of state objects to avoid direct mutations (since React state should be treated as immutable). For nested objects, if deep copies are necessary, they should be created to prevent shared references from causing unintended side effects.</li>
+            <li><strong>Shallow Copy in React (using spread operator):</strong>
+              <pre>
+                <code>
+                const [user, setUser] = useState({ name: "John", details: { age: 30 } });
+  
+                const updateAge = () => {
+                  // This creates a shallow copy of 'user'
+                  setUser((prevUser) => ({
+                    ...prevUser,
+                    details: { ...prevUser.details, age: 40 } // Shallow copy of nested object
+                  }));
+                };
+                </code>
+              </pre>
+            </li>
+          </ul>
+        </li>
+      </ul>`
+  }
+,{
+  id: 19,
+  question: "Spread & Rest Operator in React/JavaScript",
+  answer: `
+    <ul>
+      <li><strong>Spread Operator:</strong>
+        <ul>
+          <li>The spread operator (<code>...</code>) is used to spread out the elements of an array or properties of an object into another array or object. It is commonly used for shallow copying arrays/objects or merging them in React.</li>
+          <li><strong>Usage in React:</strong> The spread operator is often used to update state immutably without directly mutating the original state object or array.</li>
+          <li><strong>Example in React:</strong>
+            <pre>
+              <code>
+              const [user, setUser] = useState({ name: "John", age: 30 });
+
+              const updateAge = () => {
+                // Spread operator to create a new state object with an updated age
+                setUser((prevUser) => ({ ...prevUser, age: 31 }));
+              };
+              </code>
+            </pre>
+          </li>
+        </ul>
+      </li>
+
+      <li><strong>Rest Operator:</strong>
+        <ul>
+          <li>The rest operator (<code>...</code>) is used to gather the remaining elements into an array or remaining properties into an object. It is commonly used in function arguments or destructuring.</li>
+          <li><strong>Example of Rest Operator in Function Arguments:</strong>
+            <pre>
+              <code>
+              const sum = (a, b, ...rest) => {
+                return rest.reduce((acc, curr) => acc + curr, a + b);
+              };
+
+              console.log(sum(1, 2, 3, 4)); // Output: 10 (1 + 2 + 3 + 4)
+              </code>
+            </pre>
+          </li>
+        </ul>
+      </li>
+
+      <li><strong>Example of Spread and Rest Operator in Destructuring:</strong>
+        <pre>
+          <code>
+          const user = { name: "John", age: 30, city: "New York" };
+
+          // Spread Operator to clone an object
+          const updatedUser = { ...user, age: 31 };
+
+          console.log(updatedUser); // Output: { name: "John", age: 31, city: "New York" }
+
+          // Rest Operator to extract remaining properties
+          const { name, ...rest } = user;
+
+          console.log(name); // "John"
+          console.log(rest); // { age: 30, city: "New York" }
+          </code>
+        </pre>
+      </li>
+    </ul>`
+}
+,
+{
+  id: 20,
+  question: "Differences Between let, var, and const",
+  answer: `
+    <ul>
+      <li><strong>var:</strong>
+        <ul>
+          <li><strong>Scope:</strong> <code>var</code> is function-scoped, meaning it is accessible anywhere within the function in which it is declared.</li>
+          <li><strong>Hoisting:</strong> <code>var</code> is hoisted, which means its declaration is moved to the top of its scope before code execution. However, the value is <strong>undefined</strong> until it is assigned later in the code.</li>
+          <li><strong>Re-declaration:</strong> <code>var</code> can be re-declared and updated within the same scope, which can lead to unexpected behavior.</li>
+          <li><strong>Example:</strong>
+            <pre>
+              <code>
+              function test() {
+                console.log(x); // undefined due to hoisting
+                var x = 10;
+                console.log(x); // 10
+              }
+              test();
+              </code>
+            </pre>
+          </li>
+        </ul>
+      </li>
+
+      <li><strong>let:</strong>
+        <ul>
+          <li><strong>Scope:</strong> <code>let</code> is block-scoped, meaning it is only accessible within the block in which it is declared (e.g., within a loop, conditional statement, etc.).</li>
+          <li><strong>Hoisting:</strong> <code>let</code> is hoisted, but it is not initialized. Accessing it before initialization results in a <strong>ReferenceError</strong>.</li>
+          <li><strong>Re-declaration:</strong> <code>let</code> cannot be re-declared in the same block, but it can be updated.</li>
+          <li><strong>Example:</strong>
+            <pre>
+              <code>
+              function test() {
+                // console.log(x); // ReferenceError: x is not defined
+                let x = 10;
+                console.log(x); // 10
+              }
+              test();
+              </code>
+            </pre>
+          </li>
+        </ul>
+      </li>
+
+      <li><strong>const:</strong>
+        <ul>
+          <li><strong>Scope:</strong> <code>const</code> is block-scoped, just like <code>let</code>, but it declares constants whose values cannot be reassigned.</li>
+          <li><strong>Hoisting:</strong> <code>const</code> is hoisted, but similar to <code>let</code>, it is not initialized, and accessing it before initialization will result in a <strong>ReferenceError</strong>.</li>
+          <li><strong>Re-declaration:</strong> <code>const</code> cannot be re-declared or reassigned, though the content of objects and arrays declared with <code>const</code> can be mutated.</li>
+          <li><strong>Example:</strong>
+            <pre>
+              <code>
+              const x = 10;
+              // x = 20; // Error: Assignment to constant variable
+              const obj = { name: "John" };
+              obj.name = "Jane"; // This is allowed, the object properties can be mutated
+              console.log(obj.name); // "Jane"
+              </code>
+            </pre>
+          </li>
+        </ul>
+      </li>
+
+      <li><strong>Key Differences:</strong>
+        <ul>
+          <li><strong>Scope:</strong> <code>var</code> is function-scoped, while <code>let</code> and <code>const</code> are block-scoped.</li>
+          <li><strong>Re-declaration:</strong> <code>var</code> can be re-declared, <code>let</code> can be updated but not re-declared, and <code>const</code> cannot be re-declared or updated.</li>
+          <li><strong>Hoisting:</strong> While all three are hoisted, <code>var</code> is initialized as <code>undefined</code>, while <code>let</code> and <code>const</code> are not initialized, leading to a <strong>ReferenceError</strong> if accessed before declaration.</li>
+        </ul>
+      </li>
+    </ul>`
+}
+,{
+  id: 21,
+  question: "Prototype in JavaScript",
+  answer: `
+    <ul>
+      <li><strong>Prototype:</strong>
+        <ul>
+          <li>In JavaScript, every object has a hidden property called <code>__proto__</code> (or simply prototype). The prototype is an object from which other objects inherit properties and methods.</li>
+          <li>Prototypes are a key part of JavaScript's inheritance model, allowing objects to inherit functionality from other objects.</li>
+          <li>When a property or method is accessed on an object, JavaScript first checks if the object itself has the property or method. If not, it looks at the object's prototype. This process is called <strong>prototype chaining</strong>.</li>
+        </ul>
+      </li>
+
+      <li><strong>Example of Prototype:</strong>
+        <pre>
+          <code>
+          function Person(name, age) {
+            this.name = name;
+            this.age = age;
+          }
+
+          // Adding a method to the prototype
+          Person.prototype.greet = function() {
+            console.log("Hello, my name is " + this.name);
+          };
+
+          const john = new Person("John", 30);
+          john.greet(); // Output: Hello, my name is John
+
+          // Even though greet() is not directly on 'john', it is found on the prototype chain
+          console.log(john.hasOwnProperty('greet')); // false
+          console.log(john.__proto__.hasOwnProperty('greet')); // true
+          </code>
+        </pre>
+      </li>
+
+      <li><strong>Prototype Chain:</strong>
+        <ul>
+          <li>When an object is created, it has access to the properties and methods defined on its prototype. If you try to access a property or method on an object and it’s not found, JavaScript will keep searching up the prototype chain until it either finds the property/method or reaches the end of the chain.</li>
+          <li>The final object in the chain is <code>Object.prototype</code>, which is the root of all objects in JavaScript. Beyond that, the prototype is <code>null</code>.</li>
+        </ul>
+      </li>
+
+      <li><strong>Advantages of Using Prototype:</strong>
+        <ul>
+          <li><strong>Memory Efficiency:</strong> Methods defined on the prototype are shared across all instances of an object. This prevents each instance from having its own copy of the method, saving memory.</li>
+          <li><strong>Dynamic Inheritance:</strong> New methods or properties can be added to the prototype even after instances have been created, allowing for dynamic updates to all instances.</li>
+        </ul>
+      </li>
+
+      <li><strong>Prototype vs. Class-based Inheritance:</strong>
+        <ul>
+          <li>JavaScript uses prototype-based inheritance, unlike class-based inheritance in languages like Java or C++. JavaScript objects inherit directly from other objects via the prototype chain, rather than inheriting from classes.</li>
+        </ul>
+      </li>
+    </ul>`
+}
+
+  
+  
+  
+
+
+
 ];
 
 export default function Iq() {
